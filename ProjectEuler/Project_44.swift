@@ -13,7 +13,7 @@ import Foundation
 
 func Project44()
 {
-    // FindLimits()
+    FindLimits()
     
     let limitK = 91650
     let limitJ = 52430
@@ -201,10 +201,8 @@ func PentagonalNumber(n:Int) -> Int
 
 func IsPentagonal(Pn:Int) -> Bool
 {
-    let dPn = Double(Pn)
+    let n = (1 + sqrt(24.0 * Double(Pn) + 1)) / 6
     
-    let n = sqrt(2.0 / 3.0 * dPn + 1.0 / 36.0) + 1.0 / 6.0
-    
-    return ceil(n) == n
+    return n - floor(n) == 0
 }
 
