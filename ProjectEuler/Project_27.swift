@@ -53,7 +53,7 @@ func Project27()
 
 func IsPrime(n:Int) -> Bool
 {
-    if n <= 0
+    if n <= 1
     {
         return false
     }
@@ -70,7 +70,7 @@ func IsPrime(n:Int) -> Bool
     
     let root = Int(floor(sqrt(Double(n)) + 0.5))
     
-    for i in stride(from: 5, through: root, by: 2)
+    for i in stride(from: 3, through: root, by: 2)
     {
         if n % i == 0
         {
