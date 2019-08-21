@@ -10,8 +10,7 @@ import Foundation
 
 func Project60()
 {
-    var primes = OptimizedSieveOfEratosthenes(n: 674)
-    
+    var primes = OptimizedSieveOfEratosthenes(n: 3000)
     
     var pairs:[(a:Int, b:Int)] = []
     
@@ -29,13 +28,15 @@ func Project60()
         }
     }
     
+    print("Number of doubles: \(pairs.count)")
+    
     var triples:[(a:Int, b:Int, c:Int)] = []
     
     for nextPair in pairs
     {
         for nextPrime in primes
         {
-            if nextPrime == nextPair.a || nextPrime == nextPair.b
+            if /* nextPrime == nextPair.a || */ nextPrime <= nextPair.b
             {
                 continue
             }
@@ -56,13 +57,17 @@ func Project60()
         }
     }
     
+    print("Number of triples: \(triples.count)")
+    
+    
+    
     var quads:[(a:Int, b:Int, c:Int, d:Int)] = []
     
     for nextTriple in triples
     {
         for nextPrime in primes
         {
-            if nextPrime == nextTriple.a || nextPrime == nextTriple.b || nextPrime == nextTriple.c
+            if /* nextPrime == nextTriple.a || nextPrime == nextTriple.b || */ nextPrime <= nextTriple.c
             {
                 continue
             }
@@ -89,10 +94,63 @@ func Project60()
         }
     }
     
+    print("Number of quads: \(quads.count)")
+    
+    var quints:[(a:Int, b:Int, c:Int, d:Int, e:Int)] = []
+    
     for nextQuad in quads
     {
-        print(nextQuad)
+        for nextPrime in primes
+        {
+            if nextPrime <= nextQuad.d
+            {
+                continue
+            }
+            
+            if IsPrime(n: ConcatenateIntegers(a: nextQuad.a, b: nextPrime))
+            {
+                if IsPrime(n: ConcatenateIntegers(a: nextPrime, b: nextQuad.a))
+                {
+                    if IsPrime(n: ConcatenateIntegers(a: nextQuad.b, b: nextPrime))
+                    {
+                        if IsPrime(n: ConcatenateIntegers(a: nextPrime, b: nextQuad.b))
+                        {
+                            if IsPrime(n: ConcatenateIntegers(a: nextQuad.c, b: nextPrime))
+                            {
+                                if IsPrime(n: ConcatenateIntegers(a: nextPrime, b: nextQuad.c))
+                                {
+                                    if IsPrime(n: ConcatenateIntegers(a: nextQuad.d, b: nextPrime))
+                                    {
+                                        if IsPrime(n: ConcatenateIntegers(a: nextPrime, b: nextQuad.d))
+                                        {
+                                            quints.append((nextQuad.a, nextQuad.b, nextQuad.c, nextQuad.d, nextPrime))
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
+    
+    print("Number of quints: \(quints.count)")
+    
+    var minSum = Int.max
+    
+    for nextQuint in quints
+    {
+        let sum = nextQuint.a + nextQuint.b + nextQuint.c + nextQuint.d + nextQuint.e
+        if sum < minSum
+        {
+            minSum = sum
+        }
+        
+        print("Quad:\(nextQuint); sum = \(sum)")
+    }
+    
+    print("Minimum sum: \(minSum)")
 }
 
 func ConcatenateIntegers(a:Int, b:Int) -> Int
