@@ -24,12 +24,16 @@ func Project20()
 
 func RepresentFactorial(x:Int) -> [Int]
 {
+    if x == 0 || x == 1
+    {
+        return [1]
+    }
     
-    var numArray:[Int] = [1]
+    var numArray:[Int] = [x]
     
     var numDigits = numArray.count
     
-    for i in 2...x
+    for i in stride(from: x-1, through: 2, by: -1)
     {
         numDigits = DoMultiply(x: i, y: &numArray)
     }

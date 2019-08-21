@@ -10,7 +10,7 @@ import Foundation
 
 func Project28()
 {
-    let theMatrix = CreateSprialMatrix(dim: 1001)
+    let theMatrix = CreateSpiralMatrixClockwise(dim: 1001)
     
     print(DiagonalSum(matrix: theMatrix))
 }
@@ -40,7 +40,7 @@ func DiagonalSum(matrix:matrix) -> Int
     return sum
 }
 
-func CreateSprialMatrix(dim:Int) -> matrix
+func CreateSpiralMatrixClockwise(dim:Int) -> matrix
 {
     var matrixDim = dim
     if dim % 2 == 0
