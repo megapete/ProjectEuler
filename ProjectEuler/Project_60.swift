@@ -10,7 +10,10 @@ import Foundation
 
 func Project60()
 {
-    var primes = OptimizedSieveOfEratosthenes(n: 3000)
+    var primes = OptimizedSieveOfEratosthenes(n: 10000)
+    var usePrimes:Set<Int> = []
+    
+    print("Number of primes: \(primes.count)")
     
     var pairs:[(a:Int, b:Int)] = []
     
@@ -23,10 +26,16 @@ func Project60()
                 if IsPrime(n: ConcatenateIntegers(a: primes[j], b: primes[i]))
                 {
                     pairs.append((primes[i], primes[j]))
+                    usePrimes.insert(primes[i])
+                    usePrimes.insert(primes[j])
                 }
             }
         }
     }
+    
+    primes = Array(usePrimes).sorted()
+    print("New number of primes: \(primes.count)")
+    usePrimes = []
     
     print("Number of doubles: \(pairs.count)")
     
@@ -50,6 +59,9 @@ func Project60()
                         if IsPrime(n: ConcatenateIntegers(a: nextPrime, b: nextPair.b))
                         {
                             triples.append((nextPair.a, nextPair.b, nextPrime))
+                            usePrimes.insert(nextPair.a)
+                            usePrimes.insert(nextPair.b)
+                            usePrimes.insert(nextPrime)
                         }
                     }
                 }
@@ -59,7 +71,9 @@ func Project60()
     
     print("Number of triples: \(triples.count)")
     
-    
+    primes = Array(usePrimes).sorted()
+    print("New number of primes: \(primes.count)")
+    usePrimes = []
     
     var quads:[(a:Int, b:Int, c:Int, d:Int)] = []
     
@@ -85,6 +99,11 @@ func Project60()
                                 if IsPrime(n: ConcatenateIntegers(a: nextPrime, b: nextTriple.c))
                                 {
                                     quads.append((nextTriple.a, nextTriple.b, nextTriple.c, nextPrime))
+                                    
+                                    usePrimes.insert(nextTriple.a)
+                                    usePrimes.insert(nextTriple.b)
+                                    usePrimes.insert(nextTriple.c)
+                                    usePrimes.insert(nextPrime)
                                 }
                             }
                         }
@@ -93,6 +112,10 @@ func Project60()
             }
         }
     }
+    
+    primes = Array(usePrimes).sorted()
+    print("New number of primes: \(primes.count)")
+    usePrimes = []
     
     print("Number of quads: \(quads.count)")
     
