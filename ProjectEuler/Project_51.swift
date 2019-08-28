@@ -16,26 +16,63 @@ func Project51()
     
     // input parameters
     let numPrimesToFind = 7
-    let minLimit = 10000
+    let minLimit = 56000
     
     // let maxDigitsToReplace = DigitArray(n: minLimit).count - 1
     
     var numPrimes = 0
     var currentValue = minLimit
     
+    var currentPrimeSet:[Int] = []
+    
     while numPrimes < numPrimesToFind
     {
-        let maxDigitsToReplace = CountDigits(n: UInt(currentValue)) - 1
+        let numDigits = CountDigits(n: UInt(currentValue))
+        let maxDigitsToReplace = numDigits - 1
+        let currentValueDigits = DigitArray(n: currentValue)
+        
+        currentPrimeSet = []
         
         for i in 1...maxDigitsToReplace
         {
+            let combos = DoCombinationsOfArrayIndices(arraySize: numDigits, k: i)
             
+            for nextCombo in combos
+            {
+                for replacementDigit in 0..<10
+                {
+                    let nextNumToCheck = ReplaceDigits(inDigits: currentValueDigits, digitIndices: nextCombo, newDigit: replacementDigit)
+                    
+                    if IsPrime(n: nextNumToCheck)
+                    {
+                        currentPrimeSet.append(nextNumToCheck)
+                    }
+                }
+                
+                numPrimes = currentPrimeSet.count
+                
+                if numPrimes >= numPrimesToFind
+                {
+                    break
+                }
+                
+                currentPrimeSet = []
+            }
+            
+            if numPrimes >= numPrimesToFind
+            {
+                break
+            }
         }
         
-        currentValue += 1
+        if numPrimes < numPrimesToFind
+        {
+            numPrimes = 0
+            currentValue += 1
+        }
     }
     
-    
+    print("Current value: \(currentValue)")
     
 }
 
