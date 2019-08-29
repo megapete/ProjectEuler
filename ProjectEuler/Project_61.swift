@@ -56,7 +56,90 @@ func Project61()
     
 }
 
+enum FigurateType {
+    
+    case triangle
+    case square
+    case pentagonal
+    case hexagonal
+    case heptagonal
+    case octagonal
+}
 
+class CycleNode:Equatable
+{
+    // required function for Equitable
+    static func == (lhs: CycleNode, rhs: CycleNode) -> Bool {
+        
+        return lhs.value == rhs.value && lhs.type == rhs.type
+    }
+    
+    let value:Int
+    let type:FigurateType
+    
+    var parent:CycleNode?
+    
+    var children:[CycleNode] = []
+    
+    init(value:Int, type:FigurateType, parent:CycleNode? = nil)
+    {
+        self.value = value
+        self.type = type
+        self.parent = parent
+    }
+    
+    func AddChildren(fromNumbers:[Int], type:FigurateType)
+    {
+        // don't add children whose type is already in the ancestry
+        if GetAncestorTypes().contains(type)
+        {
+            return
+        }
+        
+        let targetDigits = self.value % 100
+        
+        let numChildren = self.children.count
+        
+        for nextNumber in fromNumbers
+        {
+            if nextNumber / 100 == targetDigits
+            {
+                self.children.append(CycleNode(value: nextNumber, type: type, parent: self))
+            }
+        }
+        
+        // if no children were added, we delete ourselves from the list
+        if self.children.count == numChildren
+        {
+            if let ancestor = self.parent
+            {
+                ancestor.RemoveChild(child: self)
+            }
+        }
+    }
+    
+    func RemoveChild(child:CycleNode)
+    {
+        if let childIndex = self.children.firstIndex(of: child)
+        {
+            self.children.remove(at: childIndex)
+        }
+    }
+    
+    func GetAncestorTypes() -> [FigurateType]
+    {
+        var result = [self.type]
+        var currentSelf = self
+        
+        while let nextParent = currentSelf.parent
+        {
+            result.append(nextParent.type)
+            currentSelf = nextParent
+        }
+        
+        return result
+    }
+}
 
 func IntPow(n:Int, power:Int) -> Int
 {
