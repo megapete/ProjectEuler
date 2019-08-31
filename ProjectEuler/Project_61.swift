@@ -52,7 +52,17 @@ func Project61()
         octagonals.append(n * (3 * n - 2))
     }
     
+    var figurates:[([Int], FigurateType)] = [(squares, .square), (pentagonals, .pentagonal)]
     
+    for nextTriangle in triangles
+    {
+        let newTopNode = CycleNode(value: nextTriangle, type: .triangle)
+        
+        for nextFig in figurates
+        {
+            newTopNode.AddChildren(fromNumbers: nextFig.0, type: nextFig.1)
+        }
+    }
     
 }
 
@@ -86,6 +96,23 @@ class CycleNode:Equatable
         self.value = value
         self.type = type
         self.parent = parent
+    }
+    
+    func Depth() -> Int
+    {
+        // As long as the tree was created with the AddChildren routine, it is guaranteed that all the existing children go to the same depth.
+        
+        // self is at depth 1
+        var result = 1
+        var currentNode = self
+        
+        while currentNode.children.count != 0
+        {
+            result += 1
+            currentNode = currentNode.children[0]
+        }
+        
+        return result
     }
     
     func AddChildren(fromNumbers:[Int], type:FigurateType)
